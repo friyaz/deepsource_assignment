@@ -9,3 +9,9 @@ test.py:7: @wraps decorator used
 test.py:19: @wraps decorator used
 test.py:33: @wraps decorator used
 ```
+
+### Useful Resources
+* https://docs.python.org/3/library/ast.html
+* https://greentreesnakes.readthedocs.io/en/latest/
+* https://deepsource.io/blog/introduction-static-code-analysis/
+* https://vpyast.appspot.com/
