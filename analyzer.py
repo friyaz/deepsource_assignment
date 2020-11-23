@@ -22,12 +22,15 @@ class BaseChecker(ast.NodeVisitor):
             print(filename + ":" + str(lineno) + ": " + msg)
             
 class WrapDecoratorChecker(BaseChecker):
-    msg = "@wraps decorator used"
+    msg = "@functools.wraps decorator used"
 
     def visit_FunctionDef(self, node):
         for decorator in node.decorator_list:
-            if isinstance(decorator, ast.Call) and decorator.func.id == "wraps":
-                self.violations.append((self.filename, node.lineno, self.msg))  
+            if isinstance(decorator, ast.Call):
+                if isinstance(decorator.func, ast.Attribute) and decorator.func.attr == "wraps":
+                    self.violations.append((self.filename, node.lineno, self.msg))
+                if isinstance(decorator.func, ast.Name) and decorator.func.id == "wraps":
+                    self.violations.append((self.filename, node.lineno, self.msg))
       
         for child in node.body:
             self.visit(child)

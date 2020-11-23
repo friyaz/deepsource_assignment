@@ -5,9 +5,12 @@ To test a file, pass the filename as command line argument to `analyzer.py`.
 ### Example Usage
 ```
 >>> python analyzer.py test.py
-test.py:7: @wraps decorator used
-test.py:19: @wraps decorator used
-test.py:33: @wraps decorator used
+test.py:7: @functools.wraps decorator used
+test.py:19: @functools.wraps decorator used
+test.py:33: @functools.wraps decorator used
+
+>>> python analyzer.py more_tests.py
+more_tests.py:4: @functools.wraps decorator used
 ```
 
 ### Useful Resources
