@@ -27,7 +27,8 @@ class WrapDecoratorChecker(BaseChecker):
     def visit_FunctionDef(self, node):
         for decorator in node.decorator_list:
             if isinstance(decorator, ast.Call):
-                if isinstance(decorator.func, ast.Attribute) and decorator.func.attr == "wraps":
+                if isinstance(decorator.func, ast.Attribute) and decorator.func.attr == "wraps" \
+                    and decorator.func.value.id == "functools":
                     self.violations.append((self.filename, node.lineno, self.msg))
                 if isinstance(decorator.func, ast.Name) and decorator.func.id == "wraps":
                     self.violations.append((self.filename, node.lineno, self.msg))
