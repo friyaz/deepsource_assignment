@@ -1,10 +1,12 @@
 import functools
 
+
 def print_function_name(func):
     @functools.wraps(func)  # An issue should be raised here
     def logging(*args, **kwargs):
         print(func.__name__ + " was called")
         return func(*args, **kwargs)
+
     return logging
 
 

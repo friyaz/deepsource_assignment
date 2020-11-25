@@ -2,9 +2,11 @@ import ast
 import sys
 import tokenize
 
+
 def read_file(filename):
     with tokenize.open(filename) as fd:
         return fd.read()
+
 
 class BaseChecker(ast.NodeVisitor):
     def __init__(self):
@@ -20,7 +22,8 @@ class BaseChecker(ast.NodeVisitor):
         for violation in self.violations:
             filename, lineno, msg = violation
             print(filename + ":" + str(lineno) + ": " + msg)
-            
+
+
 class WrapDecoratorChecker(BaseChecker):
     msg = "@functools.wraps decorator used"
 
@@ -28,16 +31,20 @@ class WrapDecoratorChecker(BaseChecker):
         for decorator in node.decorator_list:
             if isinstance(decorator, ast.Call):
                 func = decorator.func
-                if isinstance(func, ast.Attribute) and func.attr == "wraps" \
-                    and func.value.id == "functools":
+                if (
+                    isinstance(func, ast.Attribute)
+                    and func.attr == "wraps"
+                    and func.value.id == "functools"
+                ):
                     self.violations.append((self.filename, node.lineno, self.msg))
                 if isinstance(func, ast.Name) and func.id == "wraps":
                     self.violations.append((self.filename, node.lineno, self.msg))
-      
+
         for child in node.body:
             self.visit(child)
-            
-if __name__ == '__main__':
+
+
+if __name__ == "__main__":
     files = sys.argv[1:]
     checker = WrapDecoratorChecker()
     checker.check(files)
